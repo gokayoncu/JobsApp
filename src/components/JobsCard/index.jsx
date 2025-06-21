@@ -7,18 +7,25 @@ import {
 import React from 'react';
 import RenderHTML from 'react-native-render-html';
 import useTruncatedHtml from '../../../hooks/useTruncatedHtml';
+import { useNavigation } from '@react-navigation/native';
+
 const JobsCard = ({ item }) => {
   const { width } = useWindowDimensions();
-
+  const navigation = useNavigation();
   const companyName = item.company?.name || 'Company not specified';
   const jobTitle = item.name || 'No title';
-  const location = Array.isArray(item.locations)
-    ? item.locations.map(loc => loc.name).join(', ')
-    : 'Location not specified';
+  const location =
+    Array.isArray(item.locations) && item.locations.length > 0
+      ? item.locations.length > 1
+        ? `${item.locations[0].name}  +${item.locations.length - 1}`
+        : item.locations[0].name
+      : 'Location not specified';
   const truncatedContent = useTruncatedHtml(item.contents, 100);
-
+  const handleDetailPage = () => {
+    navigation.navigate('DetailPage', { item });
+  };
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={handleDetailPage}>
       <Text style={styles.title}>{jobTitle}</Text>
       <Text style={styles.company}>{companyName}</Text>
       <Text style={styles.location}>{location}</Text>
@@ -61,8 +68,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 2,
     borderRadius: 10,
-    backgroundColor: '#e04e50',
-    borderColor: '#e04e50',
+    backgroundColor: '#fec55b',
+    borderColor: '#fec55b',
     borderWidth: 1,
     marginBottom: 8,
     alignSelf: 'flex-start',

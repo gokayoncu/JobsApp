@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
-// Örnek reducer importu
-import exampleReducer from './exampleSlice';
+import slice from '../slice/slice';
 
 const rootReducer = combineReducers({
-  example: exampleReducer,
+  jobs: slice,
 });
 
 export default rootReducer;

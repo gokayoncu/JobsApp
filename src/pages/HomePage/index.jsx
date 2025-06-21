@@ -7,7 +7,6 @@ import Error from '../../components/Error';
 import Loading from '../../components/Loading';
 const HomePage = () => {
   const { data, loading, error } = useFetch({ url: 'jobs', page: 20 });
-  console.log(data);
   const renderItem = ({ item }) => <JobsCard item={item} />;
   if (loading) {
     return <Loading />;

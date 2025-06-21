@@ -1,19 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const exampleSlice = createSlice({
-  name: 'example',
-  initialState: {
-    value: 0,
-  },
+const initialState = {
+  favourites: [],
+};
+
+const jobSlice = createSlice({
+  name: 'jobs',
+  initialState,
   reducers: {
-    increment(state) {
-      state.value += 1;
+    addFavourite: (state, action) => {
+      const existingItem = state.favourites.find(
+        job => job.id === action.payload.id,
+      );
+      if (!existingItem) {
+        state.favourites.push(action.payload);
+      }
     },
-    decrement(state) {
-      state.value -= 1;
+    removeFavourite: (state, action) => {
+      state.favourites = state.favourites.filter(
+        job => job.id !== action.payload.id,
+      );
     },
   },
 });
 
-export const { increment, decrement } = exampleSlice.actions;
-export default exampleSlice.reducer;
+export const { addFavourite, removeFavourite } = jobSlice.actions;
+
+export default jobSlice.reducer;
